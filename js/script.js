@@ -1,5 +1,5 @@
 function tweetFormatter (user, message, time) {
-  var readableTime = moment(time).fromNow();
+  var readableTime = moment(time).format('MMM D, YYYY h:mm A')
   return (
     '<header>' +
       '<a class="user" href="#">@' + user + '</a>:' +
