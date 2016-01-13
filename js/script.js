@@ -1,8 +1,9 @@
 function tweetFormatter (user, message, time) {
+  var readableTime = moment(time).fromNow();
   return (
     '<header>' +
       '<a class="user" href="#">@' + user + '</a>:' +
-      // time + ' ago' +
+      '<span class="timestamp">' + readableTime + '</span>' +
     '</header>' +
     '<p class="message">' + message + '</p>'
   );
@@ -16,7 +17,9 @@ $(document).ready(function () {
   while (index >= 0) {
     var tweet = streams.home[index];
     var $tweet = $('<div class="tweet well"></div>');
-    $tweet.html( tweetFormatter(tweet.user, tweet.message) );
+    $tweet.html( 
+      tweetFormatter(tweet.user, tweet.message, tweet.created_at) 
+    );
     $tweet.appendTo($stream);
     index -= 1;
   }

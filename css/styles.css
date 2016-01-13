@@ -9,3 +9,15 @@ main {
 .stream {
   background-color: aquamarine;
 }
+
+.user {
+  float: left;
+}
+
+.timestamp {
+  float: right;
+}
+
+.message {
+  clear: both;
+}
