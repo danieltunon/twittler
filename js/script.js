@@ -9,19 +9,29 @@ function tweetFormatter (user, message, time) {
   );
 }
 
-$(document).ready(function () {
-  var $stream = $('article.stream');
-  //$stream.html('<h2>Your stream</h2>');
-
-  var index = streams.home.length - 1;
-  while (index >= 0) {
-    var tweet = streams.home[index];
+function displayTweets (start, end, target) {
+  for ( var i = start; i < end; i++ ) {
+    var tweet = streams.home[i];
     var $tweet = $('<div class="tweet well"></div>');
     $tweet.html( 
       tweetFormatter(tweet.user, tweet.message, tweet.created_at) 
     );
-    $tweet.appendTo($stream);
-    index -= 1;
+    $tweet.prependTo(target);
   }
+}
 
+$(document).ready(function () {
+  var $stream = $('section.stream');
+  //$stream.html('<h2>Your stream</h2>');
+
+  var tweetsDisplayed = 0;
+  var totalTweets = streams.home.length;
+  
+  displayTweets(tweetsDisplayed, totalTweets, $stream);
+  
+  setInterval(function() {
+    totalTweets = streams.home.length;
+    displayTweets(tweetsDisplayed, totalTweets, $stream);
+    tweetsDisplayed = totalTweets;
+  }, 1000);
 });
