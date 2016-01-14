@@ -40,7 +40,7 @@ function displayTweets(start, end, target) {
   for ( var i = start; i < end; i++ ) {
     var tweet = streams.home[i];
     var $tweet = $('<div class="tweet well" data-timestamp="'
-      + tweet.created_at +'"></div>');
+      + tweet.created_at.toISOString() +'"></div>');
     $tweet.html( 
       tweetFormatter(tweet.user, tweet.message, tweet.created_at) 
     );
