@@ -43,7 +43,7 @@ function displayTweets (start, end, target) {
     $tweet.html( 
       tweetFormatter(tweet.user, tweet.message, tweet.created_at) 
     );
-    $tweet.prependTo(target);
+    $tweet.hide().prependTo(target).fadeIn("slow");
   }
 }
 
@@ -57,9 +57,10 @@ $(document).ready(function () {
   
   // call /displayTweets/ on page ready to initially populate stream
   displayTweets(tweetsDisplayed, totalTweets, $stream);
+  tweetsDisplayed = totalTweets;
   
   // create new interval timer to update stream with new tweets
-  setInterval(function() {
+  setInterval(function updateStream() {
     totalTweets = streams.home.length;
     displayTweets(tweetsDisplayed, totalTweets, $stream);
     tweetsDisplayed = totalTweets;
