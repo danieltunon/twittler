@@ -1,3 +1,4 @@
+/*global moment*/
 // Begin /tweetFormatter/ utility function
 // Purpose: produces the properly formatted html for each tweet
 // Arguments:
@@ -9,12 +10,11 @@
 //   * formats time into readable form
 //   * inserts arguments into proper place in template HTML
 //
-function tweetFormatter (user, message, time) {
-  var readableTime = moment(time).format('MMM D, YYYY h:mm A')
+function tweetFormatter(user, message, time) {
   return (
     '<header>' +
       '<a class="user" href="#">@' + user + '</a>:' +
-      '<span class="timestamp">' + readableTime + '</span>' +
+      '<span class="timestamp">' + moment(time).fromNow() + '</span>' +
     '</header>' +
     '<p class="message">' + message + '</p>'
   );
@@ -36,10 +36,11 @@ function tweetFormatter (user, message, time) {
 //   * prepends the finished element to the DOM target so new
 //     tweets are displayed at the top of the stream
 //
-function displayTweets (start, end, target) {
+function displayTweets(start, end, target) {
   for ( var i = start; i < end; i++ ) {
     var tweet = streams.home[i];
-    var $tweet = $('<div class="tweet well"></div>');
+    var $tweet = $('<div class="tweet well" data-timestamp="'
+      + tweet.created_at +'"></div>');
     $tweet.html( 
       tweetFormatter(tweet.user, tweet.message, tweet.created_at) 
     );
@@ -65,4 +66,12 @@ $(document).ready(function () {
     displayTweets(tweetsDisplayed, totalTweets, $stream);
     tweetsDisplayed = totalTweets;
   }, 1000);
+  
+  // create new interval to update timestamp
+  setInterval( function updateTimeStamp () {
+    $( ".timestamp" ).each( function () {
+      var time = $( this ).parents( ".tweet" ).data( "timestamp" );
+      $( this ).text( moment( time ).fromNow() );
+    });
+  }, 30000);
 });
