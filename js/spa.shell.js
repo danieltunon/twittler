@@ -17,7 +17,7 @@ spa.shell = (function () {
           '<nav class="navbar navbar-default navbar-fixed-top">' +
             '<div class="container">' +
               '<div class="navbar-header">' +
-                '<a class="navbar-brand" href="#home">Twittler</a>' +
+                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
               '</div>' +
             '</div>' +
           '</nav>' +
@@ -68,10 +68,10 @@ spa.shell = (function () {
   //   * formats time into readable form
   //   * inserts arguments into proper place in template HTML
   //
-  function formatTweet ( user, message, time ) {
+  formatTweet = function ( user, message, time ) {
     return (
       '<header>' +
-        '<a class="spa-shell-stream-tweet-user" href="#' + user + '">' +
+        '<a class="spa-shell-stream-tweet-user" href="#stream=' + user + '">' +
         '@' + user + '</a>:' +
         '<span class="spa-shell-stream-tweet-timestamp">' +
         moment(time).fromNow() +
@@ -112,7 +112,7 @@ spa.shell = (function () {
       );
       $tweet.hide().prependTo(target).fadeIn("slow");
     }
-  }
+  };
   // End DOM method /displayTweets/
 
   // Begin DOM method /updateTimestamp/
@@ -227,6 +227,7 @@ spa.shell = (function () {
     jqueryMap = {
       $container: $container,
       $stream: $container.find( '.spa-shell-stream' ),
+      $stream_link: $container.find('.spa-shell-stream-tweet-user'),
       $title: $container.find( '.spa-shell-title' )
     };
   };
@@ -269,7 +270,7 @@ spa.shell = (function () {
     // Begin adjust stream component if changed
     if ( ! anchor_map_previous || _s_stream_previous !== _s_stream_proposed ) {
       s_stream_proposed = anchor_map_proposed.stream;
-      toggleStream( s_stream_proposed )
+      toggleStream( s_stream_proposed || 'home' );
     }
     // End adjust chat component if changed
 
@@ -277,24 +278,16 @@ spa.shell = (function () {
   };
   // End Event handler /onHashchange/
 
-  // // Begin Event handler /onClickStream/
-  // onClickStream = function ( event ) {
-  //   changeAnchorPart({
-  //     stream: event.data.user
-  //     });
-  //   return false;
-  // };
-  // // End Event handler /onClickChat/
   //--------------------- END EVENT HANDLERS --------------------
 
   //-------------------- BEGIN PUBLIC METHODS -------------------
   // Begin Public method /extendAnchorMap/
   // Purpose: extend the given anchor schema map key
   //          with the given values
-  extendAnchorMap = function ( key, values ) {
+  extendAnchorMap = function ( values ) {
     values.forEach( function ( value ) {
-      if ( configMap.anchor_schema_map[key][value] === undefined ) {
-        configMap.anchor_schema_map[key][value] = true;
+      if ( configMap.anchor_schema_map.stream[value] === undefined ) {
+        configMap.anchor_schema_map.stream[value] = true;
       }
     });
   };
@@ -303,7 +296,7 @@ spa.shell = (function () {
   // Begin Public method /initModule/
   initModule = function ( $container ) {
     // set config map
-    extendAnchorMap( 'stream', window.users );
+    extendAnchorMap( window.users );
 
     // set state map
     stateMap.$container = $container;
@@ -312,14 +305,8 @@ spa.shell = (function () {
     // load HTML
     $container.html( configMap.main_html );
 
-    //map jQuery collections
+    // map jQuery collections
     setJqueryMap();
-
-    // initialize chat slider and bind click handler
-    //stateMap.is_chat_retracted = true;
-    //jqueryMap.$( chat )
-      //.attr( 'title', configMap.chat_retracted_title )
-      //.click( onClickChat );
 
     // configure uriAnchor to use our schema
     $.uriAnchor.configModule({
