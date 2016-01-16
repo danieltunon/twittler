@@ -127,29 +127,45 @@ spa.shell = (function () {
   // End DOM method /updateTimestamp/
 
   // Begin DOM method /toggleStream/
+  // Purpose: to reset the stream with the appropriate content
+  // Arguments:
+  //   * user - the name of the user who's stream will be displayed
+  //            'home' will be passed to display tweets from everyone
+  // Returns: none
+  // Actions:
+  //   * Removes previous update stream interval timer if present
+  //   * Resets tweet counts and current stream stateMap properties
+  //   * Clears stream container contents
+  //   * Resets title to appropriate name
+  //   * Populates container with currently available tweets
+  //   * Sets new interval timer to update stream with new tweets
   //
   toggleStream = function ( user ) {
-    var stream = ( user === 'home' ? streams[user] : streams.users[user] );
+    // convenience variable to point to correct stream array
+    var displayedStream;
+    displayedStream = ( user === 'home' ? streams[user] : streams.users[user] );
 
     if ( stateMap.updateStreamID ) {
       clearInterval( stateMap.updateStreamID );
     }
+
+    stateMap.stream = displayedStream;
     stateMap.tweetsDisplayed = 0;
-    stateMap.totalTweets = stream.length;
+    stateMap.totalTweets = displayedStream.length;
 
     jqueryMap.$stream.html('');
     jqueryMap.$title.text( (user === 'home' ? 'Your stream' : user + '\'s stream') );
     jqueryMap.$container.scrollTop(0);
 
-    displayTweets( stream,
+    displayTweets( displayedStream,
                    stateMap.tweetsDisplayed,
                    stateMap.totalTweets,
                    jqueryMap.$stream );
     stateMap.tweetsDisplayed = stateMap.totalTweets;
 
     stateMap.updateStreamID = setInterval( function () {
-      stateMap.totalTweets = stream.length;
-      displayTweets( stream,
+      stateMap.totalTweets = displayedStream.length;
+      displayTweets( displayedStream,
                      stateMap.tweetsDisplayed,
                      stateMap.totalTweets,
                      jqueryMap.$stream );
@@ -228,7 +244,6 @@ spa.shell = (function () {
     jqueryMap = {
       $container: $container,
       $stream: $container.find( '.spa-shell-stream' ),
-      $stream_link: $container.find('.spa-shell-stream-tweet-user'),
       $title: $container.find( '.spa-shell-title' )
     };
   };
@@ -273,7 +288,7 @@ spa.shell = (function () {
       s_stream_proposed = anchor_map_proposed.stream;
       toggleStream( s_stream_proposed || 'home' );
     }
-    // End adjust chat component if changed
+    // End adjust stream component if changed
 
     return false;
   };
