@@ -1,14 +1,26 @@
-body {
+/*body {
   background-color: lightgoldenrodyellow;
 }
 
 main {
-  background-color: darkseagreen; 
+  background-color: darkseagreen;
 }
 
+article {
+  background-color: darkorchid;
+}
 .stream {
   background-color: aquamarine;
   padding: 20px;
+}*/
+body {
+  padding-top: 3em;
+}
+
+.navbar-brand {
+  font-family: 'Fredoka One', cursive;
+  font-weight: 400;
+  font-size: 2.5em;
 }
 
 .user {
