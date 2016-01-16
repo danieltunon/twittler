@@ -37,13 +37,15 @@ spa.shell = (function () {
       anchor_map: {},
       stream: 'home',
       tweetsDisplayed: 0,
-      totalTweets: 0
+      totalTweets: 0,
+      updateStreamID: null
     },
 
     jqueryMap = {},
 
     copyAnchorMap, formatTweet,
-    displayTweets, changeAnchorPart, setJqueryMap, toggleStream,
+    displayTweets, updateTimestamp,
+    changeAnchorPart, setJqueryMap, toggleStream,
     onHashchange, onClickStream,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
@@ -99,10 +101,10 @@ spa.shell = (function () {
   //   * prepends the finished element to the DOM target so new
   //     tweets are displayed at the top of the stream
   // End DOM method /displayTweets/
-  function displayTweets ( start, end, target ) {
+  displayTweets = function ( source, start, end, target ) {
     var i = start;
     for ( i; i < end; i++ ) {
-      var tweet = streams.home[i];
+      var tweet = source[i];
       var $tweet = $('<div class="spa-shell-stream-tweet well" data-timestamp="' +
         tweet.created_at.toISOString() +'"></div>');
       $tweet.html(
@@ -113,8 +115,18 @@ spa.shell = (function () {
   }
   // End DOM method /displayTweets/
 
-  // Begin DOM method /updateStream/
+  // Begin DOM method /updateTimestamp/
+  // create new interval timer to update timestamp
+  updateTimestamp = function () {
+    $( ".spa-shell-stream-tweet-timestamp" ).each( function () {
+      var time = $( this ).parents( ".spa-shell-stream-tweet" )
+                          .data( "timestamp" );
+      $( this ).text( moment( time ).fromNow() );
+    });
+  };
+  // End DOM method /updateTimestamp/
 
+  // Begin DOM method /updateStream/
 
   // Begin DOM method /changeAnchorPart/
   // Purpose: Changes part of the URI anchor component
@@ -190,26 +202,6 @@ spa.shell = (function () {
   };
   // End DOM method /setJqueryMap/
 
-  // Begin DOM method /toggleStream/
-  // Purpose: extends or retracts chat slider
-  // Arguments:
-  //   * do_extend - if true, extends slider; if false retracts
-  //   * callback - optional fuction to execute at end of animation
-  // Settings:
-  //   * chat_extend_time,chat_retract_time
-  //   * chat_extend_height, chat_retract_height
-  // Returns: boolean
-  //   * true - slider animation activated
-  //   * false - slider animation not activated
-  // State: sets stateMap.is_chat_retracted
-  //   * true - slider is retracted
-  //   * false - slider is extended
-  //
-  toggleStream = function (  ) {
-
-  };
-  // End DOM method /toggleStream/
-
   //---------------------- END DOM METHODS ----------------------
 
   //-------------------- BEGIN EVENT HANDLERS -------------------
@@ -266,14 +258,14 @@ spa.shell = (function () {
   };
   // End Event handler /onHashchange/
 
-  // Begin Event handler /onClickStream/
-  onClickStream = function ( event ) {
-    changeAnchorPart({
-      stream: event.data.user
-      });
-    return false;
-  };
-  // End Event handler /onClickChat/
+  // // Begin Event handler /onClickStream/
+  // onClickStream = function ( event ) {
+  //   changeAnchorPart({
+  //     stream: event.data.user
+  //     });
+  //   return false;
+  // };
+  // // End Event handler /onClickChat/
   //--------------------- END EVENT HANDLERS --------------------
 
   //-------------------- BEGIN PUBLIC METHODS -------------------
@@ -306,7 +298,7 @@ spa.shell = (function () {
 
     // initialize chat slider and bind click handler
     //stateMap.is_chat_retracted = true;
-    //jqueryMap.$chat
+    //jqueryMap.$( chat )
       //.attr( 'title', configMap.chat_retracted_title )
       //.click( onClickChat );
 
@@ -325,7 +317,8 @@ spa.shell = (function () {
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
 
-    displayTweets(stateMap.tweetsDisplayed, stateMap.totalTweets, jqueryMap.$stream);
+    displayTweets(streams.home, stateMap.tweetsDisplayed, stateMap.totalTweets, jqueryMap.$stream);
+    setInterval( updateTimestamp, 30000 );
 
   };
   // End Public method /initModule/
