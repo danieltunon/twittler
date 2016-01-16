@@ -14,10 +14,10 @@
 function tweetFormatter(user, message, time) {
   return (
     '<header>' +
-      '<a class="user" href="#">@' + user + '</a>:' +
-      '<span class="timestamp">' + moment(time).fromNow() + '</span>' +
+      '<a class="spa-shell-stream-tweet-user" href="#">@' + user + '</a>:' +
+      '<span class="spa-shell-stream-tweet-timestamp">' + moment(time).fromNow() + '</span>' +
     '</header>' +
-    '<p class="message">' + message + '</p>'
+    '<p class="spa-shell-stream-tweet-message">' + message + '</p>'
   );
 }
 
@@ -41,7 +41,7 @@ function displayTweets(start, end, target) {
   var i = start;
   for ( i; i < end; i++ ) {
     var tweet = streams.home[i];
-    var $tweet = $('<div class="tweet well" data-timestamp="' +
+    var $tweet = $('<div class="spa-shell-stream-tweet well" data-timestamp="' +
       tweet.created_at.toISOString() +'"></div>');
     $tweet.html(
       tweetFormatter(tweet.user, tweet.message, tweet.created_at)
@@ -52,7 +52,7 @@ function displayTweets(start, end, target) {
 
 // Begin /document.ready/ event listener
 $(document).ready(function () {
-  var $stream = $('section.stream');
+  var $stream = $('section.spa-shell-stream');
 
   var tweetsDisplayed = 0;
   var totalTweets = streams.home.length;
@@ -70,8 +70,9 @@ $(document).ready(function () {
 
   // create new interval timer to update timestamp
   var updateTimeStamp = setInterval( function () {
-    $( ".timestamp" ).each( function () {
-      var time = $( this ).parents( ".tweet" ).data( "timestamp" );
+    $( "spa-shell-stream-tweet-timestamp" ).each( function () {
+      var time = $( this ).parents( ".spa-shell-stream-tweet" )
+                          .data( "spa-shell-stream-tweet-timestamp" );
       $( this ).text( moment( time ).fromNow() );
     });
   }, 30000);

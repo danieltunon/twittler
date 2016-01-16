@@ -1,0 +1,17 @@
+.navbar-brand {
+  font-family: 'Fredoka One', cursive;
+  font-weight: 400;
+  font-size: 2.5em;
+}
+
+.spa-shell-stream-tweet-user {
+  float: left;
+}
+
+.spa-shell-stream-tweet-timestamp {
+  float: right;
+}
+
+.spa-shell-stream-tweet-message {
+  clear: both;
+}
