@@ -126,7 +126,36 @@ spa.shell = (function () {
   };
   // End DOM method /updateTimestamp/
 
-  // Begin DOM method /updateStream/
+  // Begin DOM method /toggleStream/
+  //
+  toggleStream = function ( user ) {
+    var stream = ( user === 'home' ? streams[user] : streams.users[user] );
+
+    if ( stateMap.updateStreamID ) {
+      clearInterval( stateMap.updateStreamID );
+    }
+    stateMap.tweetsDisplayed = 0;
+    stateMap.totalTweets = stream.length;
+
+    jqueryMap.$stream.html('');
+    jqueryMap.$title.text( (user === 'home' ? 'Your stream' : user + '\'s stream') );
+
+    displayTweets( stream,
+                   stateMap.tweetsDisplayed,
+                   stateMap.totalTweets,
+                   jqueryMap.$stream );
+    stateMap.tweetsDisplayed = stateMap.totalTweets;
+
+    stateMap.updateStreamID = setInterval( function () {
+      stateMap.totalTweets = stream.length;
+      displayTweets( stream,
+                     stateMap.tweetsDisplayed,
+                     stateMap.totalTweets,
+                     jqueryMap.$stream );
+      stateMap.tweetsDisplayed = stateMap.totalTweets;
+    }, 1000);
+  };
+  // End DOM method /toggleStream/
 
   // Begin DOM method /changeAnchorPart/
   // Purpose: Changes part of the URI anchor component
@@ -197,7 +226,8 @@ spa.shell = (function () {
     var $container = stateMap.$container;
     jqueryMap = {
       $container: $container,
-      $stream: $container.find( '.spa-shell-stream' )
+      $stream: $container.find( '.spa-shell-stream' ),
+      $title: $container.find( '.spa-shell-title' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -236,21 +266,10 @@ spa.shell = (function () {
     _s_stream_previous = anchor_map_previous._s_stream;
     _s_stream_proposed = anchor_map_proposed._s_stream;
 
-    // Begin adjust chat component if changed
+    // Begin adjust stream component if changed
     if ( ! anchor_map_previous || _s_stream_previous !== _s_stream_proposed ) {
       s_stream_proposed = anchor_map_proposed.stream;
-      switch ( s_stream_proposed ) {
-        case 'open' :
-          toggleChat( true );
-          break;
-        case 'closed' :
-          toggleChat( false );
-          break;
-        default :
-          toggleChat( false );
-          delete anchor_map_proposed.chat;
-          $.uriAnchor.setAnchor( anchor_map_proposed, null, true);
-      }
+      toggleStream( s_stream_proposed )
     }
     // End adjust chat component if changed
 
@@ -317,7 +336,7 @@ spa.shell = (function () {
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
 
-    displayTweets(streams.home, stateMap.tweetsDisplayed, stateMap.totalTweets, jqueryMap.$stream);
+    toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );
 
   };
