@@ -23,7 +23,7 @@ spa.shell = (function () {
         '<main class="container">' +
           '<div class="row">' +
             '<article class="col-md-6 col-md-offset-3">' +
-              '<h2>Your stream</h2>' +
+              '<h2><span class="spa-shell-title">Your stream</span></h2>' +
               '<section class="spa-shell-stream"></section>' +
             '</article>' +
           '</div>' +
@@ -49,9 +49,63 @@ spa.shell = (function () {
   copyAnchorMap = function () {
     return $.extend( true, {}, stateMap.anchor_map );
   };
+  // End utility function /copyAnchorMap/
+
+  // Begin /tweetFormatter/ utility function
+  // Purpose: produces the properly formatted html for each tweet
+  // Arguments:
+  //   * user - the user who tweeted the message
+  //   * message - the actual message text
+  //   * time - the timestamp when the tweet was created
+  // Returns: nothing
+  // Actions:
+  //   * formats time into readable form
+  //   * inserts arguments into proper place in template HTML
+  //
+  function tweetFormatter(user, message, time) {
+    return (
+      '<header>' +
+        '<a class="spa-shell-stream-tweet-user" href="#">@' + user + '</a>:' +
+        '<span class="spa-shell-stream-tweet-timestamp">' + moment(time).fromNow() + '</span>' +
+      '</header>' +
+      '<p class="spa-shell-stream-tweet-message">' + message + '</p>'
+    );
+  }
+  // End utility function /tweetFormatter/
+
   //-------------------- END UTILITY METHODS --------------------
 
-//--------------------- BEGIN DOM METHODS ---------------------
+  //--------------------- BEGIN DOM METHODS ---------------------
+  // Begin DOM method /displayTweets/
+  // Purpose: add tweets to stream
+  // Arguments:
+  //   * start - the first new tweet in streams.home
+  //   * end - the current final tweet in streams.home
+  //   * target - the DOM element where tweets are added
+  // Returns: nothing
+  // Actions:
+  //   * iterates through array of tweets if new tweets have been
+  //     created but not displayed
+  //   * creates a new <div> element for each new tweet
+  //   * calls /tweetFormatter/ to populate the <div> with the
+  //     filled in template
+  //   * prepends the finished element to the DOM target so new
+  //     tweets are displayed at the top of the stream
+  // End DOM method /displayTweets/
+  function displayTweets(start, end, target) {
+    var i = start;
+    for ( i; i < end; i++ ) {
+      var tweet = streams.home[i];
+      var $tweet = $('<div class="spa-shell-stream-tweet well" data-timestamp="' +
+        tweet.created_at.toISOString() +'"></div>');
+      $tweet.html(
+        tweetFormatter(tweet.user, tweet.message, tweet.created_at)
+      );
+      $tweet.hide().prependTo(target).fadeIn("slow");
+    }
+  }
+  //End
+
   // Begin DOM method /changeAnchorPart/
   // Purpose: Changes part of the URI anchor component
   // Arguments:
@@ -121,7 +175,7 @@ spa.shell = (function () {
     var $container = stateMap.$container;
     jqueryMap = {
       $container: $container,
-      $chat: $container.find( '.spa-shell-stream' )
+      $stream: $container.find( '.spa-shell-stream' )
     };
   };
   // End DOM method /setJqueryMap/
