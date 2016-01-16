@@ -41,7 +41,7 @@ spa.shell = (function () {
     copyAnchorMap,
     changeAnchorPart, setJqueryMap, toggleStream,
     onHashchange, onClickStream,
-    initModule;
+    extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
 
   //------------------- BEGIN UTILITY METHODS -------------------
@@ -213,11 +213,30 @@ spa.shell = (function () {
   //--------------------- END EVENT HANDLERS --------------------
 
   //-------------------- BEGIN PUBLIC METHODS -------------------
+  // Begin Public method /extendAnchorMap/
+  // Purpose: extend the given anchor schema map key
+  //          with the given values
+  extendAnchorMap = function ( key, values ) {
+    values.forEach( function ( value ) {
+      if ( configMap.anchor_schema_map[key][value] === undefined ) {
+        configMap.anchor_schema_map[key][value] = true;
+      }
+    });
+  };
+  // End Public method /extendAnchorMap/
+
   // Begin Public method /initModule/
   initModule = function ( $container ) {
-    // load HTML and map jQuery collections
+    // set config map
+    extendAnchorMap( 'stream', window.users );
+
+    // set state map
     stateMap.$container = $container;
+
+    // load HTML
     $container.html( configMap.main_html );
+
+    //map jQuery collections
     setJqueryMap();
 
     // initialize chat slider and bind click handler
