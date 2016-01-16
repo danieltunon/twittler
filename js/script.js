@@ -53,7 +53,6 @@ function displayTweets(start, end, target) {
 // Begin /document.ready/ event listener
 $(document).ready(function () {
   var $stream = $('section.stream');
-  //$stream.html('<h2>Your stream</h2>');
 
   var tweetsDisplayed = 0;
   var totalTweets = streams.home.length;
