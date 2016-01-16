@@ -79,7 +79,7 @@ spa.shell = (function () {
       '</header>' +
       '<p class="spa-shell-stream-tweet-message">' + message + '</p>'
     );
-  }
+  };
   // End utility function /formatTweet/
 
   //-------------------- END UTILITY METHODS --------------------
@@ -139,6 +139,7 @@ spa.shell = (function () {
 
     jqueryMap.$stream.html('');
     jqueryMap.$title.text( (user === 'home' ? 'Your stream' : user + '\'s stream') );
+    jqueryMap.$container.scrollTop(0);
 
     displayTweets( stream,
                    stateMap.tweetsDisplayed,
