@@ -304,7 +304,6 @@ spa.shell = (function () {
   // Begin Event handler /onLogin/
   //
   onLogin = function ( event ) {
-    console.log("clicked");
     window.visitor = jqueryMap.$username.val();
 
     jqueryMap.$login_btn.hide();
@@ -312,6 +311,17 @@ spa.shell = (function () {
 
   };
   // End Event handler /onLogin/
+
+  // Begin Event handler /onLogout/
+  //
+  onLogout = function ( event ) {
+    window.visitor = undefined;
+
+    jqueryMap.$login_btn.show();
+    jqueryMap.$logout_btn.hide();
+
+  };
+  // End Event handler /onLogout/
 
   //--------------------- END EVENT HANDLERS --------------------
 
@@ -359,6 +369,7 @@ spa.shell = (function () {
       .trigger( 'hashchange' );
 
     jqueryMap.$submitLogin_btn.click( onLogin );
+    jqueryMap.$logout_btn.click( onLogout );
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );
