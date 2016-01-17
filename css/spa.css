@@ -23,7 +23,7 @@ body {
   padding: 1em;
 }
 
-.dropdown-menu button{
+#login-submit {
   margin-top: 0.5em;
 }
 
