@@ -13,15 +13,15 @@ spa.shell = (function () {
         }
       },
       main_html: String() +
-        // '<header>' +
-        //   '<nav class="navbar navbar-default navbar-fixed-top">' +
-        //     '<div class="container">' +
-        //       '<div class="navbar-header">' +
-        //         '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
-        //       '</div>' +
-        //     '</div>' +
-        //   '</nav>' +
-        // '</header>' +
+        '<header>' +
+          '<nav class="navbar navbar-default navbar-fixed-top">' +
+            '<div class="container">' +
+              '<div class="navbar-header">' +
+                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
+              '</div>' +
+            '</div>' +
+          '</nav>' +
+        '</header>' +
         '<main class="container">' +
           '<div class="row">' +
             '<article class="col-md-6 col-md-offset-3">' +
@@ -246,12 +246,10 @@ spa.shell = (function () {
       $container: $container,
       $stream: $container.find( '.spa-shell-stream' ),
       $title: $container.find( '.spa-shell-title' ),
-      $login_btn: $( '#login' ),
-      $logout_btn: $( '#logout' ),
-      //$submitLogin: $container.find( '.login-submit' ),
-      $submitLogin_btn: $( '#login-submit' ),
-      //$username: $container.find( '.input#username' ),
-      $username: $( '#username' )
+      $login_btn: $container.find( '#login' ),
+      $logout_btn: $container.find( '#logout' ),
+      $submitLogin_btn: $container.find( '.login-submit' ),
+      $username: $container.find( '.input#username' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -348,7 +346,7 @@ spa.shell = (function () {
     stateMap.totalTweets = streams.home.length;
 
     // load HTML
-    $container.html( configMap.main_html );
+    //$container.html( configMap.main_html );
 
     // map jQuery collections
     setJqueryMap();
