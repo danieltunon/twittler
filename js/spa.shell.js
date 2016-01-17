@@ -189,7 +189,7 @@ spa.shell = (function () {
   //   * Creates a copy of this map using copyAnchorMap().
   //   * Modifies the key-values using arg_map.
   //   * Manages the distinction between independent
-  //     and dependent vallues in the encoding.
+  //     and dependent values in the encoding.
   //   * Attempts to change the URI using uriAnchor.
   //   * Returns true on success, false on failure.
   //
@@ -338,6 +338,7 @@ spa.shell = (function () {
     $(window)
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
+
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );
