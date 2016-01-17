@@ -13,19 +13,19 @@ spa.shell = (function () {
         }
       },
       main_html: String() +
-        '<header>' +
-          '<nav class="navbar navbar-default navbar-fixed-top">' +
-            '<div class="container">' +
-              '<div class="navbar-header">' +
-                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
-              '</div>' +
-            '</div>' +
-          '</nav>' +
-        '</header>' +
+        // '<header>' +
+        //   '<nav class="navbar navbar-default navbar-fixed-top">' +
+        //     '<div class="container">' +
+        //       '<div class="navbar-header">' +
+        //         '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
+        //       '</div>' +
+        //     '</div>' +
+        //   '</nav>' +
+        // '</header>' +
         '<main class="container">' +
           '<div class="row">' +
             '<article class="col-md-6 col-md-offset-3">' +
-              '<h2><span class="spa-shell-title">Your stream</span></h2>' +
+              '<h2><span class="spa-shell-title">Your babbling brook</span></h2>' +
               '<section class="spa-shell-stream"></section>' +
             '</article>' +
           '</div>' +
@@ -46,7 +46,7 @@ spa.shell = (function () {
     copyAnchorMap, formatTweet,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
-    onHashchange, onClickStream,
+    onHashchange, onLogin,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
 
@@ -154,7 +154,8 @@ spa.shell = (function () {
     stateMap.totalTweets = displayedStream.length;
 
     jqueryMap.$stream.html('');
-    jqueryMap.$title.text( (user === 'home' ? 'Your stream' : user + '\'s stream') );
+    jqueryMap.$title.text( (user === 'home' ? 'My' : user + "'s") +
+                           ' babbling brook' );
     jqueryMap.$container.scrollTop(0);
 
     displayTweets( displayedStream,
@@ -244,7 +245,13 @@ spa.shell = (function () {
     jqueryMap = {
       $container: $container,
       $stream: $container.find( '.spa-shell-stream' ),
-      $title: $container.find( '.spa-shell-title' )
+      $title: $container.find( '.spa-shell-title' ),
+      $login_btn: $( '#login' ),
+      $logout_btn: $( '#logout' ),
+      //$submitLogin: $container.find( '.login-submit' ),
+      $submitLogin_btn: $( '#login-submit' ),
+      //$username: $container.find( '.input#username' ),
+      $username: $( '#username' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -294,6 +301,18 @@ spa.shell = (function () {
   };
   // End Event handler /onHashchange/
 
+  // Begin Event handler /onLogin/
+  //
+  onLogin = function ( event ) {
+    console.log("clicked");
+    window.visitor = jqueryMap.$username.val();
+
+    jqueryMap.$login_btn.hide();
+    jqueryMap.$logout_btn.show();
+
+  };
+  // End Event handler /onLogin/
+
   //--------------------- END EVENT HANDLERS --------------------
 
   //-------------------- BEGIN PUBLIC METHODS -------------------
@@ -339,6 +358,7 @@ spa.shell = (function () {
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
 
+    jqueryMap.$submitLogin_btn.click( onLogin );
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );
