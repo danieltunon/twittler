@@ -249,10 +249,11 @@ spa.shell = (function () {
       $title: $container.find( '.spa-shell-title' ),
       $login_btn: $container.find( '#login' ),
       $logout_btn: $container.find( '#logout' ),
-      $submitLogin_btn: $container.find( '.login-submit' ),
-      $username: $container.find( '.input#username' ),
+      $submitLogin_btn: $container.find( '#login-submit' ),
+      $username: $container.find( '#input-username' ),
       $writeTweet: $container.find( '.spa-shell-writeTweet' ),
       $newTweet: $container.find( '.spa-shell-newTweet' ),
+      $newTweetUser: $container.find( '.spa-shell-newTweet-user'),
       $newTweetMsg: $container.find( '#spa-shell-newTweet-message' ),
       $newTweetClose: $container.find( '.close' )
     };
@@ -308,6 +309,9 @@ spa.shell = (function () {
   //
   onLogin = function ( event ) {
     window.visitor = jqueryMap.$username.val();
+    jqueryMap.$newTweetUser.text( visitor );
+
+    $(this).parents('.dropdown').toggleClass('open');
 
     jqueryMap.$login_btn.hide();
     jqueryMap.$logout_btn.show();
