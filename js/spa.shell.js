@@ -54,7 +54,7 @@ spa.shell = (function () {
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
     onHashchange, onLogin, onLogout,
-    showNewTweet, hideNewTweet,
+    showNewTweet, hideNewTweet, onPost,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
 
@@ -262,7 +262,8 @@ spa.shell = (function () {
       $newTweet: $container.find( '.spa-shell-newTweet' ),
       $newTweetUser: $container.find( '.spa-shell-newTweet-user'),
       $newTweetMsg: $container.find( '#spa-shell-newTweet-message' ),
-      $newTweetClose: $container.find( '.close' )
+      $newTweetClose: $container.find( '.close' ),
+      $post_btn: $container.find( '#post' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -323,6 +324,8 @@ spa.shell = (function () {
     $('.spa-shell-header > .alert').remove();
 
     window.visitor = jqueryMap.$username.val();
+    streams.users[visitor] = [];
+
     jqueryMap.$newTweetUser.text( '@' + visitor );
 
     $(this).parents('.dropdown').toggleClass('open');
@@ -377,6 +380,18 @@ spa.shell = (function () {
   };
   // End Event handler /hideNewTweet/
 
+  // Begin Event handler /onPost/
+  //
+  onPost = function ( event ) {
+    var message = jqueryMap.$newTweetMsg.val();
+
+    writeTweet( message );
+    hideNewTweet( event );
+
+    return false;
+  };
+  // End Event handler /onPost/
+
   //--------------------- END EVENT HANDLERS --------------------
 
   //-------------------- BEGIN PUBLIC METHODS -------------------
@@ -426,6 +441,7 @@ spa.shell = (function () {
     jqueryMap.$logout_btn.click( onLogout );
     jqueryMap.$writeTweet.click( showNewTweet );
     jqueryMap.$newTweetClose.click( hideNewTweet );
+    jqueryMap.$post_btn.click( onPost );
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );

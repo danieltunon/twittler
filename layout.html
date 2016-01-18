@@ -70,7 +70,12 @@
                 <p><span class="spa-shell-newTweet-user">@dummyuser</span>:</p>
                 <button type="button" class="close" data-dismiss="" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               </header>
-              <input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What's on your mind..." aria-label="message">
+              <div class="input-group">
+                <input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What's on your mind..." aria-label="message">
+                <span class="input-group-btn">
+                  <button id="post" class="btn btn-primary">Post</button>
+                </span>
+              </div>
             </div>
           </section>
           <section class="spa-shell-stream"></section>
