@@ -48,3 +48,16 @@
 .spa-shell-newTweet {
   color: #23B5E4;
 }
+
+.dropdown-menu {
+  padding: 1em;
+  width: 15em;
+}
+
+#login-submit {
+  margin-top: 0.5em;
+}
+
+#logout {
+  display: none;
+}

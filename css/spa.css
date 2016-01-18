@@ -18,15 +18,3 @@ article {
 body {
   padding-top: 4em;
 }
-
-.dropdown-menu {
-  padding: 1em;
-}
-
-#login-submit {
-  margin-top: 0.5em;
-}
-
-#logout {
-  display: none;
-}
