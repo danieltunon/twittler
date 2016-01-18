@@ -59,7 +59,7 @@
       <div class="row">
         <article class="col-md-6 col-md-offset-3">
           <header class="spa-shell-header">
-            <h2><span class="spa-shell-title">My babbling brook</span></h2>
+            <h2><span class="spa-shell-title"></span></h2>
             <button class="spa-shell-writeTweet btn btn-default">
               <i class="glyphicon glyphicon-edit"></i> Tweet!
             </button>
@@ -67,9 +67,10 @@
           <section class="spa-shell-newTweet">
             <div class="well">
               <header>
-                <p><span class="spa-shell-newTweet-user"></span>:</p>
+                <p><span class="spa-shell-newTweet-user">@dummyuser</span>:</p>
+                <button type="button" class="close" data-dismiss="" aria-label="Close"><span aria-hidden="true">&times;</span></button>
               </header>
-              <input type="text" class="spa-shell-newTweet-message form-control" placeholder="What's on your mind...">
+              <input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What's on your mind..." aria-label="message">
             </div>
           </section>
           <section class="spa-shell-stream"></section>

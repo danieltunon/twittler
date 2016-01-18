@@ -46,7 +46,8 @@ spa.shell = (function () {
     copyAnchorMap, formatTweet,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
-    onHashchange, onLogin,
+    onHashchange, onLogin, onLogout,
+    showNewTweet, hideNewTweet,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
 
@@ -249,7 +250,11 @@ spa.shell = (function () {
       $login_btn: $container.find( '#login' ),
       $logout_btn: $container.find( '#logout' ),
       $submitLogin_btn: $container.find( '.login-submit' ),
-      $username: $container.find( '.input#username' )
+      $username: $container.find( '.input#username' ),
+      $writeTweet: $container.find( '.spa-shell-writeTweet' ),
+      $newTweet: $container.find( '.spa-shell-newTweet' ),
+      $newTweetMsg: $container.find( '#spa-shell-newTweet-message' ),
+      $newTweetClose: $container.find( '.close' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -307,6 +312,7 @@ spa.shell = (function () {
     jqueryMap.$login_btn.hide();
     jqueryMap.$logout_btn.show();
 
+    return false;
   };
   // End Event handler /onLogin/
 
@@ -318,8 +324,29 @@ spa.shell = (function () {
     jqueryMap.$login_btn.show();
     jqueryMap.$logout_btn.hide();
 
+    return false;
   };
   // End Event handler /onLogout/
+
+  // Begin Event handler /showNewTweet/
+  //
+  showNewTweet = function ( event ) {
+    jqueryMap.$newTweet.slideDown('fast');
+    jqueryMap.$newTweetMsg.focus();
+
+    return false;
+  };
+  // End Event handler /showNewTweet/
+
+  // Begin Event handler /hideNewTweet/
+  //
+  hideNewTweet = function ( event ) {
+    jqueryMap.$newTweet.slideUp('fast');
+    jqueryMap.$newTweetMsg.val('');
+
+    return false;
+  };
+  // End Event handler /hideNewTweet/
 
   //--------------------- END EVENT HANDLERS --------------------
 
@@ -368,6 +395,8 @@ spa.shell = (function () {
 
     jqueryMap.$submitLogin_btn.click( onLogin );
     jqueryMap.$logout_btn.click( onLogout );
+    jqueryMap.$writeTweet.click( showNewTweet );
+    jqueryMap.$newTweetClose.click( hideNewTweet );
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );

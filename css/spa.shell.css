@@ -20,7 +20,7 @@
   float: right;
 }
 
-.spa-shell-stream-tweet-message {
+#spa-shell-stream-tweet-message {
   clear: both;
 }
 
@@ -35,4 +35,16 @@
   display: none;
 }
 
+.spa-shell-newTweet .well {
+  position: relative;
+}
 
+.spa-shell-newTweet .close {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+
+.spa-shell-newTweet {
+  color: #23B5E4;
+}
