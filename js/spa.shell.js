@@ -53,7 +53,7 @@ spa.shell = (function () {
     copyAnchorMap, formatTweet, newLogInToTweetAlert,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
-    onHashchange, onLogin, onLogout,
+    onHashchange, onShowLogin, onLogin, onLogout,
     showNewTweet, hideNewTweet, onPost,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
@@ -313,6 +313,15 @@ spa.shell = (function () {
   };
   // End Event handler /onHashchange/
 
+  // Begin Event handler /onShowLogin/
+  //
+  onShowLogin = function  ( event ) {
+    $(this).parents('.dropdown').toggleClass('open');
+    jqueryMap.$username.focus();
+    return false;
+  };
+  //
+
   // Begin Event handler /onLogin/
   //
   onLogin = function ( event ) {
@@ -445,6 +454,7 @@ spa.shell = (function () {
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
 
+    jqueryMap.$login_btn.click( onShowLogin );
     jqueryMap.$submitLogin_btn.click( onLogin );
     jqueryMap.$logout_btn.click( onLogout );
     jqueryMap.$writeTweet.click( showNewTweet );
