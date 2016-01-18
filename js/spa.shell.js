@@ -43,7 +43,7 @@ spa.shell = (function () {
 
     jqueryMap = {},
 
-    copyAnchorMap, formatTweet,
+    copyAnchorMap, formatTweet, newLogInToTweetAlert,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
     onHashchange, onLogin, onLogout,
@@ -82,6 +82,15 @@ spa.shell = (function () {
     );
   };
   // End utility function /formatTweet/
+
+  newLogInToTweetAlert = function () {
+    return (
+      '<div class="alert alert-danger" role="alert">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+        '<p><strong>Whoops!</strong> You need to log in before you can submit a tweet.</p>' +
+      '</div>'
+    );
+  };
 
   //-------------------- END UTILITY METHODS --------------------
 
@@ -331,6 +340,11 @@ spa.shell = (function () {
   // Begin Event handler /showNewTweet/
   //
   showNewTweet = function ( event ) {
+    if ( visitor === undefined ) {
+      jqueryMap.$newTweet.append( newLogInToTweetAlert() );
+      return false;
+    }
+
     jqueryMap.$newTweet.slideDown('fast');
     jqueryMap.$newTweetMsg.focus();
 
