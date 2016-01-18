@@ -323,7 +323,7 @@ spa.shell = (function () {
     $('.spa-shell-header > .alert').remove();
 
     window.visitor = jqueryMap.$username.val();
-    jqueryMap.$newTweetUser.text( visitor );
+    jqueryMap.$newTweetUser.text( '@' + visitor );
 
     $(this).parents('.dropdown').toggleClass('open');
 
