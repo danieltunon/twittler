@@ -13,15 +13,15 @@ spa.shell = (function () {
         }
       },
       main_html: String() +
-        // '<header>' +
-        //   '<nav class="navbar navbar-default navbar-fixed-top">' +
-        //     '<div class="container">' +
-        //       '<div class="navbar-header">' +
-        //         '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
-        //       '</div>' +
-        //     '</div>' +
-        //   '</nav>' +
-        // '</header>' +
+        '<header>' +
+          '<nav class="navbar navbar-default navbar-fixed-top">' +
+            '<div class="container">' +
+              '<div class="navbar-header">' +
+                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
+              '</div>' +
+            '</div>' +
+          '</nav>' +
+        '</header>' +
         '<main class="container">' +
           '<div class="row">' +
             '<article class="col-md-6 col-md-offset-3">' +
@@ -46,7 +46,8 @@ spa.shell = (function () {
     copyAnchorMap, formatTweet,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
-    onHashchange, onLogin,
+    onHashchange, onLogin, onLogout,
+    showNewTweet, hideNewTweet,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
 
@@ -246,12 +247,14 @@ spa.shell = (function () {
       $container: $container,
       $stream: $container.find( '.spa-shell-stream' ),
       $title: $container.find( '.spa-shell-title' ),
-      $login_btn: $( '#login' ),
-      $logout_btn: $( '#logout' ),
-      //$submitLogin: $container.find( '.login-submit' ),
-      $submitLogin_btn: $( '#login-submit' ),
-      //$username: $container.find( '.input#username' ),
-      $username: $( '#username' )
+      $login_btn: $container.find( '#login' ),
+      $logout_btn: $container.find( '#logout' ),
+      $submitLogin_btn: $container.find( '.login-submit' ),
+      $username: $container.find( '.input#username' ),
+      $writeTweet: $container.find( '.spa-shell-writeTweet' ),
+      $newTweet: $container.find( '.spa-shell-newTweet' ),
+      $newTweetMsg: $container.find( '#spa-shell-newTweet-message' ),
+      $newTweetClose: $container.find( '.close' )
     };
   };
   // End DOM method /setJqueryMap/
@@ -309,6 +312,7 @@ spa.shell = (function () {
     jqueryMap.$login_btn.hide();
     jqueryMap.$logout_btn.show();
 
+    return false;
   };
   // End Event handler /onLogin/
 
@@ -320,8 +324,29 @@ spa.shell = (function () {
     jqueryMap.$login_btn.show();
     jqueryMap.$logout_btn.hide();
 
+    return false;
   };
   // End Event handler /onLogout/
+
+  // Begin Event handler /showNewTweet/
+  //
+  showNewTweet = function ( event ) {
+    jqueryMap.$newTweet.slideDown('fast');
+    jqueryMap.$newTweetMsg.focus();
+
+    return false;
+  };
+  // End Event handler /showNewTweet/
+
+  // Begin Event handler /hideNewTweet/
+  //
+  hideNewTweet = function ( event ) {
+    jqueryMap.$newTweet.slideUp('fast');
+    jqueryMap.$newTweetMsg.val('');
+
+    return false;
+  };
+  // End Event handler /hideNewTweet/
 
   //--------------------- END EVENT HANDLERS --------------------
 
@@ -348,7 +373,7 @@ spa.shell = (function () {
     stateMap.totalTweets = streams.home.length;
 
     // load HTML
-    $container.html( configMap.main_html );
+    //$container.html( configMap.main_html );
 
     // map jQuery collections
     setJqueryMap();
@@ -370,6 +395,8 @@ spa.shell = (function () {
 
     jqueryMap.$submitLogin_btn.click( onLogin );
     jqueryMap.$logout_btn.click( onLogout );
+    jqueryMap.$writeTweet.click( showNewTweet );
+    jqueryMap.$newTweetClose.click( hideNewTweet );
 
     toggleStream( 'home' );
     setInterval( updateTimestamp, 30000 );
