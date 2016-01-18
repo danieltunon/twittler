@@ -315,6 +315,8 @@ spa.shell = (function () {
   // Begin Event handler /onLogin/
   //
   onLogin = function ( event ) {
+    $('.spa-shell-header > .alert').remove();
+
     window.visitor = jqueryMap.$username.val();
     jqueryMap.$newTweetUser.text( visitor );
 
@@ -331,6 +333,7 @@ spa.shell = (function () {
   //
   onLogout = function ( event ) {
     window.visitor = undefined;
+    jqueryMap.$username.val( '' );
 
     jqueryMap.$login_btn.show();
     jqueryMap.$logout_btn.hide();
