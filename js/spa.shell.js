@@ -14,57 +14,59 @@ spa.shell = (function () {
       },
 
       main_html: String() +
-         '<header>' +
-           '<nav class="navbar navbar-default navbar-fixed-top">' +
-             '<div class="container">' +
-               '<div class="navbar-header">' +
-                 '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
-               '</div>' +
-               '<div class="navbar-nav navbar-right dropdown">' +
-                 '<button id="login" class="btn btn-default navbar-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                 '<i class="glyphicon glyphicon-off"></i> <b>Login</b>' +
-                 '</button>' +
-                 '<div class="dropdown-menu">' +
-                   '<div class="text-right">' +
-                     '<label for="input-username">User Name</label>' +
-                     '<input type="text" class="form-control" id="input-username" placeholder="Your Name">' +
-                     '<button id="login-submit" class="btn btn-primary">Submit</button>' +
+        '<header>' +
+          '<nav class="navbar navbar-default navbar-fixed-top">' +
+           ' <div class="container">' +
+              '<div class="navbar-header">' +
+                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
+              '</div>' +
+              '<div class="navbar-nav navbar-right dropdown">' +
+                '<button id="login" class="btn btn-default navbar-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                '<i class="glyphicon glyphicon-off"></i> <b>Login</b>' +
+                '</button>' +
+                '<form action="" class="dropdown-menu">' +
+                  '<div class="text-right">' +
+                    '<label for="input-username">User Name</label>' +
+                    '<input type="text" class="form-control" id="input-username" placeholder="Your Name">' +
+                    '<button id="login-submit" class="btn btn-primary" type="submit">Submit</button>' +
+                  '</form>' +
+                '</div>' +
+              '</div>' +
+              '<button id="logout" class="btn btn-default navbar-btn navbar-right">' +
+                '<i class="glyphicon glyphicon-off"></i> <b>Logout</b>' +
+              '</button>' +
+            '</div>' +
+          '</nav>' +
+        '</header>' +
+        '<main class="container spa-shell">' +
+          '<div class="row">' +
+            '<article class="col-md-6 col-md-offset-3">' +
+              '<header class="spa-shell-header">' +
+                '<h2><span class="spa-shell-title"></span></h2>' +
+                '<button class="spa-shell-writeTweet btn btn-default">' +
+                  '<i class="glyphicon glyphicon-edit"></i> Tweet!' +
+                '</button>' +
+              '</header>' +
+              '<section class="spa-shell-newTweet">' +
+                '<div class="well">' +
+                  '<header>' +
+                    '<p><span class="spa-shell-newTweet-user">@dummyuser</span>:</p>' +
+                    '<button type="button" class="close" data-dismiss="" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                  '</header>' +
+                  '<form action="">' +
+                    '<div class="input-group">' +
+                      '<input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What\'s on your mind..." aria-label="message">' +
+                      '<span class="input-group-btn">' +
+                        '<button id="post" class="btn btn-primary" type="submit">Post</button>' +
+                      '</span>' +
                     '</div>' +
-                   '</div>' +
-                 '</div>' +
-                 '<button id="logout" class="btn btn-default navbar-btn navbar-right">' +
-                   '<i class="glyphicon glyphicon-off"></i> <b>Logout</b>' +
-                 '</button>' +
-               '</div>' +
-             '</nav>' +
-           '</header>' +
-         '<main class="container spa-shell">' +
-           '<div class="row">' +
-             '<article class="col-md-6 col-md-offset-3">' +
-               '<header class="spa-shell-header">' +
-                 '<h2><span class="spa-shell-title"></span></h2>' +
-                 '<button class="spa-shell-writeTweet btn btn-default">' +
-                   '<i class="glyphicon glyphicon-edit"></i> Tweet!' +
-                 '</button>' +
-               '</header>' +
-               '<section class="spa-shell-newTweet">' +
-                 '<div class="well">' +
-                   '<header>' +
-                     '<p><span class="spa-shell-newTweet-user"></span>:</p>' +
-                     '<button type="button" class="close" data-dismiss="" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
-                   '</header>' +
-                   '<div class="input-group">' +
-                     '<input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What\'s on your mind..." aria-label="message">' +
-                     '<span class="input-group-btn">' +
-                       '<button id="post" class="btn btn-primary">Post</button>' +
-                     '</span>' +
-                   '</div>' +
-                 '</div>' +
-               '</section>' +
-               '<section class="spa-shell-stream"></section>' +
-             '</article>' +
-           '</div>' +
-         '</main>',
+                  '</form>' +
+                '</div>' +
+              '</section>' +
+              '<section class="spa-shell-stream"></section>' +
+            '</article>' +
+          '</div>' +
+        '</main>',
 
       notLoggedInAlert_html: String() +
         '<div class="alert alert-danger" role="alert" style="clear:both;">' +
@@ -88,7 +90,7 @@ spa.shell = (function () {
     copyAnchorMap, formatTweet, newLogInToTweetAlert,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
-    onHashchange, onLogin, onLogout,
+    onHashchange, onShowLogin, onLogin, onLogout,
     showNewTweet, hideNewTweet, onPost,
     extendAnchorMap, initModule;
   //-------------------- END SCOPE VARIABLES --------------------
@@ -348,6 +350,15 @@ spa.shell = (function () {
   };
   // End Event handler /onHashchange/
 
+  // Begin Event handler /onShowLogin/
+  //
+  onShowLogin = function  ( event ) {
+    $(this).parents('.dropdown').toggleClass('open');
+    jqueryMap.$username.focus();
+    return false;
+  };
+  //
+
   // Begin Event handler /onLogin/
   //
   onLogin = function ( event ) {
@@ -480,6 +491,7 @@ spa.shell = (function () {
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
 
+    jqueryMap.$login_btn.click( onShowLogin );
     jqueryMap.$submitLogin_btn.click( onLogin );
     jqueryMap.$logout_btn.click( onLogout );
     jqueryMap.$writeTweet.click( showNewTweet );
