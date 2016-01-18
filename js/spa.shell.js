@@ -355,6 +355,8 @@ spa.shell = (function () {
   // Begin Event handler /showNewTweet/
   //
   showNewTweet = function ( event ) {
+    jqueryMap.$submitLogin_btn.parents('.dropdown').removeClass('open');
+
     if ( window.visitor === undefined ) {
       if ( $('.spa-shell-header > .alert').length === 0 ) {
         $('.spa-shell-header').append( configMap.notLoggedInAlert_html );
