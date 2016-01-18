@@ -12,24 +12,59 @@ spa.shell = (function () {
           home: true
         }
       },
+
       main_html: String() +
-        '<header>' +
-          '<nav class="navbar navbar-default navbar-fixed-top">' +
-            '<div class="container">' +
-              '<div class="navbar-header">' +
-                '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
-              '</div>' +
-            '</div>' +
-          '</nav>' +
-        '</header>' +
-        '<main class="container">' +
-          '<div class="row">' +
-            '<article class="col-md-6 col-md-offset-3">' +
-              '<h2><span class="spa-shell-title">Your babbling brook</span></h2>' +
-              '<section class="spa-shell-stream"></section>' +
-            '</article>' +
-          '</div>' +
-        '</main>',
+         '<header>' +
+           '<nav class="navbar navbar-default navbar-fixed-top">' +
+             '<div class="container">' +
+               '<div class="navbar-header">' +
+                 '<a class="navbar-brand" href="#stream=home">Twittler</a>' +
+               '</div>' +
+               '<div class="navbar-nav navbar-right dropdown">' +
+                 '<button id="login" class="btn btn-default navbar-btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                 '<i class="glyphicon glyphicon-off"></i> <b>Login</b>' +
+                 '</button>' +
+                 '<div class="dropdown-menu">' +
+                   '<div class="text-right">' +
+                     '<label for="input-username">User Name</label>' +
+                     '<input type="text" class="form-control" id="input-username" placeholder="Your Name">' +
+                     '<button id="login-submit" class="btn btn-primary">Submit</button>' +
+                    '</div>' +
+                   '</div>' +
+                 '</div>' +
+                 '<button id="logout" class="btn btn-default navbar-btn navbar-right">' +
+                   '<i class="glyphicon glyphicon-off"></i> <b>Logout</b>' +
+                 '</button>' +
+               '</div>' +
+             '</nav>' +
+           '</header>' +
+         '<main class="container spa-shell">' +
+           '<div class="row">' +
+             '<article class="col-md-6 col-md-offset-3">' +
+               '<header class="spa-shell-header">' +
+                 '<h2><span class="spa-shell-title"></span></h2>' +
+                 '<button class="spa-shell-writeTweet btn btn-default">' +
+                   '<i class="glyphicon glyphicon-edit"></i> Tweet!' +
+                 '</button>' +
+               '</header>' +
+               '<section class="spa-shell-newTweet">' +
+                 '<div class="well">' +
+                   '<header>' +
+                     '<p><span class="spa-shell-newTweet-user"></span>:</p>' +
+                     '<button type="button" class="close" data-dismiss="" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                   '</header>' +
+                   '<div class="input-group">' +
+                     '<input type="text" id="spa-shell-newTweet-message" class="form-control" placeholder="What\'s on your mind..." aria-label="message">' +
+                     '<span class="input-group-btn">' +
+                       '<button id="post" class="btn btn-primary">Post</button>' +
+                     '</span>' +
+                   '</div>' +
+                 '</div>' +
+               '</section>' +
+               '<section class="spa-shell-stream"></section>' +
+             '</article>' +
+           '</div>' +
+         '</main>',
 
       notLoggedInAlert_html: String() +
         '<div class="alert alert-danger" role="alert" style="clear:both;">' +
@@ -425,7 +460,7 @@ spa.shell = (function () {
     stateMap.totalTweets = streams.home.length;
 
     // load HTML
-    //$container.html( configMap.main_html );
+    $container.html( configMap.main_html );
 
     // map jQuery collections
     setJqueryMap();
