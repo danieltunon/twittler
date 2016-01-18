@@ -29,7 +29,13 @@ spa.shell = (function () {
               '<section class="spa-shell-stream"></section>' +
             '</article>' +
           '</div>' +
-        '</main>'
+        '</main>',
+
+      notLoggedInAlert_html: String() +
+        '<div class="alert alert-danger" role="alert" style="clear:both;">' +
+          '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+          '<p><strong>Whoops!</strong> You need to log in before you can submit a tweet.</p>' +
+        '</div>'
     },
 
     stateMap = {
@@ -38,12 +44,13 @@ spa.shell = (function () {
       stream: 'home',
       tweetsDisplayed: 0,
       totalTweets: 0,
-      updateStreamID: null
+      updateStreamID: null,
+      loginAlertDisplayed: false
     },
 
     jqueryMap = {},
 
-    copyAnchorMap, formatTweet,
+    copyAnchorMap, formatTweet, newLogInToTweetAlert,
     displayTweets, updateTimestamp,
     changeAnchorPart, setJqueryMap, toggleStream,
     onHashchange, onLogin, onLogout,
@@ -335,6 +342,14 @@ spa.shell = (function () {
   // Begin Event handler /showNewTweet/
   //
   showNewTweet = function ( event ) {
+    if ( window.visitor === undefined ) {
+      if ( $('.spa-shell-header > .alert').length === 0 ) {
+        $('.spa-shell-header').append( configMap.notLoggedInAlert_html );
+      }
+
+      return false;
+    }
+
     jqueryMap.$newTweet.slideDown('fast');
     jqueryMap.$newTweetMsg.focus();
 
