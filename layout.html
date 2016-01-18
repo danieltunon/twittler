@@ -44,7 +44,7 @@
             <div class="dropdown-menu">
               <div class="text-right">
                 <label for="username">User Name</label>
-                <input type="text" class="" id="username" placeholder="Your Name">
+                <input type="text" class="form-control" id="username" placeholder="Your Name">
                 <button id="login-submit" class="btn btn-default">Submit</button>
               </div>
             </div>
@@ -58,7 +58,15 @@
     <main class="container">
       <div class="row">
         <article class="col-md-6 col-md-offset-3">
-          <h2><span class="spa-shell-title">Your stream</span></h2>
+          <h2><span class="spa-shell-title">My babbling brook</span></h2>
+          <section class="spa-shell-newTweet">
+            <div class="well">
+              <header>
+                <p><span class="spa-shell-newTweet-user"></span>:</p>
+              </header>
+              <input type="text" class="spa-shell-newTweet-message form-control" placeholder="What's on your mind...">
+            </div>
+          </section>
           <section class="spa-shell-stream"></section>
         </article>
       </div>
