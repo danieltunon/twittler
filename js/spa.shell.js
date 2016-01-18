@@ -394,6 +394,7 @@ spa.shell = (function () {
 
     writeTweet( message );
     hideNewTweet( event );
+    jqueryMap.$newTweetMsg.val( '' );
 
     return false;
   };
