@@ -4,6 +4,14 @@
   font-size: 2.5em;
 }
 
+.spa-shell h2 {
+  float: left;
+}
+
+.spa-shell-stream {
+  clear: both;
+}
+
 .spa-shell-stream-tweet-user {
   float: left;
 }
@@ -15,3 +23,16 @@
 .spa-shell-stream-tweet-message {
   clear: both;
 }
+
+.spa-shell-writeTweet {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.spa-shell-newTweet {
+  clear: both;
+  display: none;
+}
+
+
