@@ -315,6 +315,11 @@ spa.shell = (function () {
   // Begin Event handler /onLogin/
   //
   onLogin = function ( event ) {
+    if ( jqueryMap.$username.val() === '' ) {
+      $(this).parents('.dropdown').toggleClass('open');
+      return false;
+    }
+
     $('.spa-shell-header > .alert').remove();
 
     window.visitor = jqueryMap.$username.val();
