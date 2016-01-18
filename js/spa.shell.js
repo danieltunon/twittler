@@ -337,6 +337,8 @@ spa.shell = (function () {
   // Begin Event handler /onLogout/
   //
   onLogout = function ( event ) {
+    hideNewTweet ( event );
+
     window.visitor = undefined;
     jqueryMap.$username.val( '' );
 
