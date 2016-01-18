@@ -1,5 +1,9 @@
-.navbar-brand {
+.navbar-brand,
+.spa-shell-title {
   font-family: 'Fredoka One', cursive;
+  color: #777;
+}
+.navbar-brand {
   font-weight: 400;
   font-size: 2.5em;
 }
@@ -45,7 +49,8 @@
   right: 8px;
 }
 
-.spa-shell-newTweet {
+.spa-shell-newTweet-user,
+.spa-shell-stream a  {
   color: #23B5E4;
 }
 
