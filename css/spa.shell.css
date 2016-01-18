@@ -3,6 +3,10 @@
   font-family: 'Fredoka One', cursive;
   color: #777;
 }
+.spa-shell-title {
+  font-size: .85em;
+}
+
 .navbar-brand {
   font-weight: 400;
   font-size: 2.5em;
