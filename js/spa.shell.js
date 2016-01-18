@@ -387,6 +387,11 @@ spa.shell = (function () {
   onPost = function ( event ) {
     var message = jqueryMap.$newTweetMsg.val();
 
+    if ( message === '' ) {
+      hideNewTweet( event );
+      return false;
+    }
+
     writeTweet( message );
     hideNewTweet( event );
 
